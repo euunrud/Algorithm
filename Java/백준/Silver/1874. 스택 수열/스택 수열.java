@@ -28,7 +28,7 @@ public class Main {
             }
             }
         if(stack.size()>0){
-            bw.write("NO");
+            bw.write("NO\n");
         }
         else {
             bw.write(sb+"\n");
