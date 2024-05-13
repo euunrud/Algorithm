@@ -1,92 +1,54 @@
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public class Main {
-    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    int N;
-    String[] dt;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    public void solve() throws IOException {
-        N = Integer.parseInt(br.readLine());
-        dt = new String[N];
+		Stack<Double> stack = new Stack<>();
+		int num = Integer.parseInt(br.readLine());
+		List<String> list = new ArrayList<>();
+		//길이순
+		//숫자 모든 자릿수 합
+		//알파벳 사전순. 숫자 먼저
+		for (int i = 0; i < num; i++) {
+			list.add(br.readLine());
+		}
 
-        for (int i = 0; i < N; ++i) {
-            dt[i] = br.readLine();
-        }
+		list.sort((o1, o2) -> {
+			if (o1.length() != o2.length()) { //길이비교
+				return o1.length() - o2.length();
+			} else {
+				int sum1 = 0;
+				int sum2 = 0;
+				for (int i = 0; i < o1.length(); i++) {
+					if (o1.charAt(i) <= '9' && o1.charAt(i) >= '0') {
+						sum1 += Integer.parseInt(String.valueOf(o1.charAt(i)));
+					}
+				}
+				for (int i = 0; i < o2.length(); i++) {
+					if (o2.charAt(i) <= '9' && o2.charAt(i) >= '0') {
+						sum2 += Integer.parseInt(String.valueOf(o2.charAt(i)));
+					}
+				}
+				if (sum1 == sum2)
+					return o1.compareTo(o2);
+				return sum1 - sum2;
+			}
+		});
 
-        quickSort(dt, 0, N - 1);
-
-        for (String s : dt) {
-            bw.write(s + '\n');
-        }
-
-        bw.close();
-    }
-
-    void quickSort(String[] dt, int begin, int end) {
-        if (!(begin < end))
-            return;
-
-        int idxPivot = begin;
-        String pivot = dt[end];
-
-        for (int idxRight = idxPivot; idxRight < end; ++idxRight) {
-            if (myCompare(dt[idxRight], pivot) < 0) {
-                swap(dt, idxPivot, idxRight);
-                idxPivot++;
-            }
-        }
-
-        swap(dt, idxPivot, end);
-        quickSort(dt, begin, idxPivot - 1);
-        quickSort(dt, idxPivot + 1, end);
-    }
-
-    public int myCompare(String s1, String s2) {
-        if (s1.length() < s2.length())
-            return -1;
-
-        if (s1.length() > s2.length())
-            return 1;
-
-        int v1 = 0, v2 = 0;
-
-        for (int i = 0; i < s1.length(); ++i) {
-            char c1 = s1.charAt(i);
-            char c2 = s2.charAt(i);
-
-            if (isNumber(c1)) {
-                v1 += (c1 - '0');
-            }
-
-            if (isNumber(c2)) {
-                v2 += (c2 - '0');
-            }
-        }
-
-        if (v1 < v2)
-            return -1;
-
-        if (v1 > v2)
-            return 1;
-
-        return s1.compareTo(s2);
-    }
-
-    public boolean isNumber(char c) {
-        return '0' <= c && c <= '9';
-    }
-
-    public void swap(String[] d, int i, int j) {
-        String tmp = d[i];
-        d[i] = d[j];
-        d[j] = tmp;
-    }
-
-    public static void main(String[] args) throws IOException {
-        Main main = new Main();
-        main.solve();
-    }
+		for(int i = 0; i < num; i++) {
+			bw.write(list.get(i)+"\n");
+		}
+		bw.flush();
+		bw.close();
+	}
 }
