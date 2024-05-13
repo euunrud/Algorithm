@@ -13,7 +13,6 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-		Stack<Double> stack = new Stack<>();
 		int num = Integer.parseInt(br.readLine());
 		List<String> list = new ArrayList<>();
 		//길이순
