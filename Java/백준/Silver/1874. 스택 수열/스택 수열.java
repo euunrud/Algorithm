@@ -31,7 +31,7 @@ public class Main {
             bw.write("NO\n");
         }
         else {
-            bw.write(sb+"\n");
+            bw.write(sb+"");
         }
         bw.flush();
         bw.close();
