@@ -7,15 +7,15 @@ class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st;
+        StringTokenizer sn;
         int N = Integer.parseInt(br.readLine());
         int[][] arr = new int[N][2];
         int last; 
         int sum; 
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
-            arr[i][0] = Integer.parseInt(st.nextToken());
-            arr[i][1] = Integer.parseInt(st.nextToken());
+            sn = new StringTokenizer(br.readLine());
+            arr[i][0] = Integer.parseInt(sn.nextToken());
+            arr[i][1] = Integer.parseInt(sn.nextToken());
         }
  
         Arrays.sort(arr, new Comparator<int[]>() { 
