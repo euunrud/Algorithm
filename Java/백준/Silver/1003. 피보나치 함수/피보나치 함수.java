@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class Main {
-		static long[][] fn = new long[41][2];
+	static long[][] fn = new long[41][2];
 
 	public static void fibo(int n) {
 		fn[0][0] = 1;
