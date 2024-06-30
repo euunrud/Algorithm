@@ -1,35 +1,40 @@
-import java.io.*;
+package com.example.algorithm0.baekjun;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class Main {
-
-	static int[] dp;
-	static final int mod = 1_000_000_000;
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
-		
-		if(n>0) {
-			System.out.println(1);
-			
-		}else if (n<0) {
-			n = -n;
-			if(n%2 ==0) {
-				System.out.println(-1);
-			}else {
-				System.out.println(1);
-			}
-			
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+		long[] fn = new long[1000001];
+		int num = Integer.parseInt(br.readLine());
+		int rslt;
+		if(num < 0 && num % 2 == 0) {
+			rslt = -1;
+		} else if (num == 0) {
+			rslt = 0;
 		}else {
-			System.out.println(0);
+			rslt = 1;
 		}
-		
-		dp = new int[1_000_001];
-		dp[1] = 1;
-		dp[2] = 1;
-		for(int i=3; i<n+1; i++) {
-			dp[i] = (dp[i-1] + dp[i-2])%mod;
+		bw.write(rslt + "\n");
+
+		if(num < 0) {
+			num *= -1;
 		}
-		
-		System.out.println(dp[n]);
+		fn[0] = 0;
+		fn[1] = 1;
+
+		for (int i = 2; i <= num; i++) {
+			fn[i] = (fn[i - 1] + fn[i - 2])% 1000000000;
+		}
+		bw.write(fn[num] + "\n");
+
+		bw.flush();
+		bw.close();
 	}
 }
