@@ -36,6 +36,10 @@ public class Main {
 				}
 			}
 		}
-		System.out.print(answer);
+		
+		bw.write(answer + "\n");
+		bw.flush();
+		bw.close();
+		br.close();
 	}
 }
