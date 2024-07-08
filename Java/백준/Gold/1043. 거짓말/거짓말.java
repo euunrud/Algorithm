@@ -5,7 +5,7 @@ class Main {
     static List<Integer>[] party;
     static int n;
     static int m;
-    static boolean[] knowTruth;
+    static boolean[] know;
     static int[] parent;
 
     public static void main(String[] args) throws IOException {
@@ -22,9 +22,9 @@ class Main {
 
         st = new StringTokenizer(br.readLine());
         int fr = Integer.parseInt(st.nextToken());
-        knowTruth = new boolean[n + 1];
+        know = new boolean[n + 1];
         for (int i = 0; i < fr; i++) {
-            knowTruth[Integer.parseInt(st.nextToken())] = true;
+            know[Integer.parseInt(st.nextToken())] = true;
         }
 
         party = new ArrayList[m];
@@ -45,7 +45,7 @@ class Main {
         for (int i = 0; i < m; i++) {
             boolean canLie = true;
             for (int person : party[i]) {
-                if (knowTruth[find(person)]) {
+                if (know[find(person)]) {
                     canLie = false;
                     break;
                 }
@@ -62,7 +62,7 @@ class Main {
     }
 
     static int find(int x) {
-        if (parent[x] == x || knowTruth[x]) {
+        if (parent[x] == x || know[x]) {
             return x;
         } else {
             return parent[x] = find(parent[x]);
@@ -74,9 +74,9 @@ class Main {
         int rootY = find(y);
 
         if (rootX != rootY) {
-            if (knowTruth[rootX]) {
+            if (know[rootX]) {
                 parent[rootY] = rootX;
-            } else if (knowTruth[rootY]) {
+            } else if (know[rootY]) {
                 parent[rootX] = rootY;
             } else {
                 parent[rootY] = rootX;
