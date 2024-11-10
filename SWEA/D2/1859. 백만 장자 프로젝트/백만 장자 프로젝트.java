@@ -34,49 +34,37 @@ import java.io.FileInputStream;
  */
 class Solution
 {
-	 public static void main(String[] args) {
-       Scanner sc = new Scanner(System.in);
-       int T;
-       T = sc.nextInt();
+	  public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T;
+        T = sc.nextInt();
 		/*
 		   여러 개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
 		*/
 
-       Long[] rslts = new Long[T + 1];
+        Long[] rslts = new Long[T + 1];
 
-       for (int test_case = 1; test_case <= T; test_case++) {
-           int num = sc.nextInt();
-           int[] nums = new int[num];
-           for (int i = 0; i < num; i++) {
-              nums[i] = sc.nextInt();
-           }
-           int size = 0;
-           int max = 0;
-           int maxIdx = 0;
-           int before = 0;
-           Long rslt = 0L;
-          while(before < num) {
-              max = 0;
-              maxIdx = 0;
-              for (int j = before; j < num; j++) {
-                  if (nums[j] > max) {
-                      max = nums[j];
-                      maxIdx = j;
-                  }
-              }
-              for (int k = before; k < maxIdx; k++) {
-                    rslt += nums[maxIdx] - nums[k];
-              }
-              before = maxIdx + 1;
-          }
-          if (rslt < 0){
-              rslt = 0L;
-          }
-          rslts[test_case] = rslt;
-       }
+        for (int test_case = 1; test_case <= T; test_case++) {
+            int num = sc.nextInt();
+            int[] nums = new int[num];
+            Long sum = 0L;
+            for (int i = 0; i < num; i++) {
+                nums[i] = sc.nextInt();
+            }
+            int max = 0;
+            int maxIdx = num;
+            for(int i = num - 1; i >= 0; i--) {
+                if(nums[i] > max) {
+                    max = nums[i];
+                    maxIdx = i;
+                }
+                sum += max - nums[i];
+            }
+            rslts[test_case] = sum;
+        }
 
-       for(int i = 1; i <= T; i++) {
-           System.out.println("#" + i + " " + rslts[i]);
-       }
+        for (int i = 1; i <= T; i++) {
+            System.out.println("#" + i + " " + rslts[i]);
+        }
     }
 }
