@@ -1,35 +1,24 @@
 class Solution {
     public int solution(int m, int n, int[][] puddles) {
+        int answer = 0;
         int[][] dp = new int[n + 1][m + 1];
-
-        for (int[] puddle : puddles) {
-            int x = puddle[0];
-            int y = puddle[1];
-            dp[y][x] = -1;
+        
+        for(int[] p : puddles) {
+            dp[p[1]][p[0]] = -1;
         }
-
-        dp[1][1] = 1;
-
-        for (int r = 1; r <= n; r++) {
-            for (int c = 1; c <= m; c++) {
-                if (dp[r][c] == -1) {
-                    dp[r][c] = 0;
-                    continue;
-                }
-                if (r == 1 && c == 1)
-                    continue;
-                
-                int up = 0;
-                if (r > 1 && dp[r - 1][c] != -1)
-                    up = dp[r - 1][c];
-                
-                int left = 0;
-                if (c > 1 && dp[r][c - 1] != -1)
-                    left = dp[r][c - 1];
-                dp[r][c] = (up + left) % 1000000007; 
+        
+        dp[0][1] = 1;
+        for(int i = 1; i <= m; i++) { 
+            for(int j = 1; j <= n; j++) {
+                if(dp[j][i] == -1) 
+                    dp[j][i] = 0;
+                else 
+                    dp[j][i] = (dp[j - 1][i] + dp[j][i - 1]) % 1000000007;
             }
         }
-
-        return dp[n][m];
+        
+        answer = dp[n][m] % 1000000007;
+        return answer;
     }
+    
 }
