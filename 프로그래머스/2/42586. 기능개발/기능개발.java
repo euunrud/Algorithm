@@ -2,43 +2,34 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        ArrayList<Integer> list = new ArrayList<>();
-        int cnt = 0;
-        Queue<Integer> queue = new LinkedList<>();
-        int[] ss = new int[speeds.length];
-        for(int i = 0; i < progresses.length; i++) {
-            queue.add(progresses[i]);
-            ss[i] = speeds[i];
+        int[] answer = {};
+        int n = progresses.length;
+        Queue<Integer> queue = new ArrayDeque<>();
+        List<Integer> list = new ArrayList<>();
+        
+        for(int i = 0; i < n; i++) {
+            queue.offer(progresses[i]);
         }
-        int num = 0;
-        while(queue.size() > 0) {
-            cnt = 0;
-            //if(num > 0) {
-                
-            //}
-            while (!queue.isEmpty() && queue.peek() + speeds[num] >= 100) {
-                //System.out.println(queue.peek());
+        
+        int idx = 0;
+        int day = 1;
+        while(!queue.isEmpty()) {
+            int cnt = 0;
+            while(!queue.isEmpty() && queue.peek() + (speeds[idx] * day)>= 100) {
                 queue.poll();
                 cnt++;
-                if (num < speeds.length - 1) {
-                    num++;
-                }else {
-                    break;
-                }
-
+                idx++;
             }
-            if(cnt > 0) {
+            
+            if(cnt > 0)
                 list.add(cnt);
-            }
-            for(int i = num; i < speeds.length; i++) {
-                    speeds[i] += ss[i];
-            }
+            day++;
         }
-
-        int[] arr = list.stream()
-                .mapToInt(i -> i)
-                .toArray();
-
-        return arr;
+        
+        answer = new int[list.size()];
+        for(int i = 0; i < list.size(); i++) 
+            answer[i] = list.get(i);
+        
+        return answer;
     }
 }
