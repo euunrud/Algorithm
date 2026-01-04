@@ -1,43 +1,40 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main {
-    static int[][] dp;
-    static int[][] num;
+public class Main {
+    static int n, k;
+    static int[][] bag;
+    static int[][] memo;
     static int max = 0;
-
-    static public int DP(int idx, int k) {
-      if(idx == dp.length)
-        return 0;
-
-      if(dp[idx][k] != 0) 
-        return dp[idx][k];
-      
-      int val1 = 0;
-      if(k - num[idx][0] >= 0)
-        val1 = DP(idx + 1, k - num[idx][0]) + num[idx][1];
-      int val2 = DP(idx + 1, k);
-      
-      dp[idx][k] = Math.max(val1, val2);
-      return dp[idx][k];
+    
+    static int dp(int idx, int w) {
+        if(idx == n)
+            return 0;
+        if(memo[idx][w] > 0)
+            return memo[idx][w];
+            
+        int r1 = dp(idx + 1, w);
+        int r2 = 0;
+        if(w - bag[idx][0] >= 0)
+            r2 = dp(idx + 1, w - bag[idx][0]) + bag[idx][1];
+        
+        memo[idx][w] = Math.max(r1, r2);
+        return memo[idx][w];
+        
     }
-  
-    public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+        bag = new int[n][2];
+        memo = new int[n][k + 1];
         
-        num = new int[n + 1][2];
-        for(int i = 1; i <= n; i++) {
-          st = new StringTokenizer(br.readLine());
-          num[i][0] = Integer.parseInt(st.nextToken());
-          num[i][1] = Integer.parseInt(st.nextToken());
+        for(int i = 0; i < n; i++) {
+             st = new StringTokenizer(br.readLine());
+             bag[i] = new int[]{Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())};
         }
 
-        Arrays.sort(num, (a, b) -> a[0] - b[0]);
-
-        dp = new int[n + 1][k + 1];
-        System.out.println(DP(1, k));
-  }
+        System.out.print(dp(0, k));
+	}
 }
