@@ -1,5 +1,5 @@
 select NAME, COUNT(*) AS COUNT
 from Animal_ins
-group by name
-having COUNT(*) > 1 and name IS NOT NULL
+GROUP BY NAME
+Having COUNT(*) > 1 AND name IS NOT NULL
 order by name;
