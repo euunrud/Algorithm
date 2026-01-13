@@ -1,43 +1,35 @@
 class Solution {
     public int solution(String s) {
-        int answer = s.length();
-        for(int l = 1; l <= s.length() / 2; l++){
-            int rslt = check(s, l);
-            if(rslt < answer) {
-                answer = rslt;
-            }
-        }
+        int min = s.length();
+        for(int i = 1; i <= s.length()/2; i++)
+            min = Math.min(check(s, i), min);
         
-        return answer;
+        return min;
     }
     
     public int check(String s, int n) {
-        int len = 0;
-        int cnt = 1;
         int i;
-        
-        for(i = 0; i + n <= s.length(); i += n) {
-            if (i + 2 * n <= s.length() && s.substring(i, i + n).equals(s.substring(i + n, i + 2 * n))) {
+        String prev = s.substring(0, n);
+        StringBuilder sb = new StringBuilder();
+        int cnt = 1;
+        for(i = n; i + n <= s.length(); i += n) {
+            String now = s.substring(i, i + n);
+            if(prev.equals(now)) {
                 cnt++;
-                continue;
             } else {
-                if (cnt != 1) {
-                    len += n + String.valueOf(cnt).length();
-                } else {
-                    len += n;
-                }
+                if(cnt != 1)
+                    sb.append(cnt);
+                sb.append(prev);
                 cnt = 1;
+                prev = now;
             }
+        }
+        
+        String now = s.substring(i, s.length());
+        if(cnt > 1)
+            sb.append(cnt);
+        sb.append(prev).append(now);
 
-        }
-        if (cnt != 1) {
-            len += n + String.valueOf(cnt).length();
-        }
-        
-        if (i < s.length()) {
-            len += s.length() - i;
-        }
-        
-        return len;
+        return sb.length();
     }
 }
