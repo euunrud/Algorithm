@@ -1,35 +1,32 @@
 class Solution {
     public int solution(String s) {
-        int min = s.length();
-        for(int i = 1; i <= s.length()/2; i++)
-            min = Math.min(check(s, i), min);
+        int len = s.length();
+        int answer = len;
         
-        return min;
-    }
-    
-    public int check(String s, int n) {
-        int i;
-        String prev = s.substring(0, n);
-        StringBuilder sb = new StringBuilder();
-        int cnt = 1;
-        for(i = n; i + n <= s.length(); i += n) {
-            String now = s.substring(i, i + n);
-            if(prev.equals(now)) {
-                cnt++;
-            } else {
+        for(int i = 1; i <= len / 2; i++) {
+            int length = 0;
+            int idx = 0;
+            while(idx + i <= len) {
+                int cnt = 1;
+                String std = s.substring(idx, idx + i);
+                while(idx + 2 * i <= len && s.substring(idx + i, idx + i * 2).equals(std)) {
+                    cnt++;
+                    idx += i;
+                }
                 if(cnt != 1)
-                    sb.append(cnt);
-                sb.append(prev);
-                cnt = 1;
-                prev = now;
+                    while(cnt > 0) {
+                        length++;
+                        cnt /= 10;
+                    }
+                idx += i;
+                length += i;
             }
+            
+            if(idx < len)
+                length += len - idx;
+            answer = Math.min(answer, length);
         }
         
-        String now = s.substring(i, s.length());
-        if(cnt > 1)
-            sb.append(cnt);
-        sb.append(prev).append(now);
-
-        return sb.length();
+        return answer;
     }
 }
