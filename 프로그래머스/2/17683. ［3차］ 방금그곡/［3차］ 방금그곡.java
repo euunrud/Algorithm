@@ -11,18 +11,14 @@ class Solution {
         return s;
     }
     static int calc(String s1, String s2) {
-        int time = 0;
         int hh1 = Integer.parseInt(s1.split(":")[0]);
         int mm1 = Integer.parseInt(s1.split(":")[1]);
         int hh2 = Integer.parseInt(s2.split(":")[0]);
         int mm2 = Integer.parseInt(s2.split(":")[1]);
         
         if(hh1 == hh2)
-            time = mm2 - mm1;
-        else
-            time = (hh2 - hh1 - 1) * 60 + (60 - mm1) + mm2;
-        
-        return time;
+            return mm2 - mm1;
+        return (hh2 - hh1 - 1) * 60 + (60 - mm1) + mm2;
     }
     public String solution(String m, String[] musicinfos) {
         String answer = "";
@@ -33,11 +29,8 @@ class Solution {
         for(int i = 0; i < len; i++) {
             infos[i] = musicinfos[i].split(",");
             int play = calc(infos[i][0], infos[i][1]);
+            infos[i][3] = change(infos[i][3]);
             String ns = "";
-            
-            for(int j = 2; j < 4; j++)
-                if(infos[i][j].contains("#"))
-                    infos[i][j] = change(infos[i][j]);
             
             while(play > 0) {
                 if(play >= infos[i][3].length()) {
