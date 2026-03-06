@@ -1,35 +1,32 @@
-import java.util.*;
+import java.util.*; 
 
 class Solution {
     public int solution(int[][] maps) {
         int answer = -1;
-        Queue<int[]> que = new ArrayDeque<>();
-        que.offer(new int[]{0, 0, 1});
-        maps[0][0] = 0;
-        
         int n = maps.length;
         int m = maps[0].length;
+        Queue<int[]> que = new ArrayDeque<>();
+        boolean[][] vst = new boolean[n][m];
         
-        int[] dx = {-1, 1, 0, 0};
-        int[] dy = {0, 0, -1, 1};
+        int[] dx = {0, 0, -1, 1};
+        int[] dy = {-1, 1, 0, 0};
+        que.offer(new int[]{0, 0, 1});
+        vst[0][0] = true;
+        
         while(!que.isEmpty()) {
-            int[] arr = que.poll();
+            int[] sp = que.poll();
+            if(sp[0] == n - 1 && sp[1] == m - 1)
+                answer = sp[2];
             
-            if(arr[0] == n - 1 && arr[1] == m - 1){
-                answer = arr[2];
-                break;
-            }
             for(int i = 0; i < 4; i++) {
-                if(arr[0] + dx[i] >= 0 && arr[0] + dx[i] < n && arr[1] + dy[i] >= 0 && arr[1] + dy[i] < m) {
-                    if(maps[arr[0] + dx[i]][arr[1] + dy[i]] == 1) {
-                        que.offer(new int[]{arr[0] + dx[i], arr[1] + dy[i], arr[2] + 1});
-                        maps[arr[0] + dx[i]][arr[1] + dy[i]] = 0;
-                    }
+                int nx = sp[0] + dx[i];
+                int ny = sp[1] + dy[i];
+                if(nx >= 0 && nx < n && ny >= 0 && ny < m && vst[nx][ny] == false && maps[nx][ny] == 1){
+                    que.offer(new int[]{nx, ny, sp[2] + 1});
+                    vst[nx][ny] = true;
                 }
-                            
             }
         }
-        
         return answer;
     }
 }
