@@ -1,25 +1,36 @@
+import java.util.*;
+
 class Solution {
-    static int num;
-    static boolean[] vst;
-    public void dfs(int idx, int[][] com) {
-        vst[idx] = true;
-        for(int i = 0; i < num; i++)
-            if(i != idx && vst[i] == false && com[idx][i] == 1)
-                dfs(i, com);
-        
-        return;
+    boolean[] com;
+    List<Integer>[] list;
+    public void dfs(int idx) {
+        for(int i = 0; i < list[idx].size(); i++) {
+            if(com[list[idx].get(i)] == false) {
+                com[list[idx].get(i)] = true;
+                dfs(list[idx].get(i));
+            }
+        }
     }
     public int solution(int n, int[][] computers) {
-        int answer = 0;
-        num = n;
-        vst = new boolean[n];
+        int len = computers.length;
+        com = new boolean[len];
+        list = new ArrayList[len];
+        for(int i = 0; i < len; i++) 
+            list[i] = new ArrayList<>();
         
-        for(int i = 0; i < n; i++)
-            if(vst[i] == false) {
-                dfs(i, computers);
-                answer++;
+        for(int i = 0; i < len; i++) 
+            for(int j = 0; j < len; j++)
+                if(computers[i][j] == 1 && i != j)
+                    list[i].add(j);
+        
+        int cnt = 0;
+        for(int i = 0; i < len; i++)
+            if(com[i] == false) {
+                cnt++;
+                com[i] = true;
+                dfs(i);
             }
         
-        return answer;
+        return cnt;
     }
 }
