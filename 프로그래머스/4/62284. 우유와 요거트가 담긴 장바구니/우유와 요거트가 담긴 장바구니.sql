@@ -1,8 +1,6 @@
--- 코드를 입력하세요
-SELECT CART_ID
-FROM CART_PRODUCTS 
-Where name = 'Milk'
-or name = 'Yogurt'
-Group by CART_ID 
-HAVING COUNT(Distinct name) > 1
-order by CART_ID;
+SELECT C.CART_ID
+FROM (SELECT CART_ID, NAME FROM CART_PRODUCTS
+     WHERE NAME IN ('Milk', 'Yogurt')
+     GROUP BY CART_ID, NAME) AS C
+GROUP BY C.CART_ID HAVING COUNT(C.CART_ID) = 2
+ORDER BY C.CART_ID ASC;
