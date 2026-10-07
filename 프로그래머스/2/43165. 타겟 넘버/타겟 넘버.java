@@ -1,25 +1,17 @@
-import java.util.*;
-
 class Solution {
-    static Set<String> set;
-    static int answer = 0;
-    public void dfs(int idx, int sum, int[] num, int target, String s) {
-        if(idx == num.length) {
-            if(sum == target && !set.contains(s)) {
-                answer++;
-                set.add(s);
-            }
+    int cnt = 0;
+    public void dfs(int[] numbers, int target, int idx, int sum) {
+        if(idx == numbers.length) {
+            if(sum == target) cnt++;
             return;
         }
         
-        int n = num[idx];
-        dfs(idx + 1, sum - num[idx], num, target, s.concat("-" + n));
-        dfs(idx + 1, sum + num[idx], num, target, s.concat("+" + n));
+        dfs(numbers, target, idx + 1, sum - numbers[idx]);
+        dfs(numbers, target, idx + 1, sum + numbers[idx]);
+        return;
     }
     public int solution(int[] numbers, int target) {
-        set = new HashSet<>();
-        dfs(0, 0, numbers, target, "");
-        
-        return answer;
+        dfs(numbers, target, 0, 0);
+        return cnt;
     }
 }
