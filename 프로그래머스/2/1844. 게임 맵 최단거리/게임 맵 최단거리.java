@@ -1,32 +1,36 @@
-import java.util.*; 
+import java.util.*;
 
 class Solution {
-    public int solution(int[][] maps) {
-        int answer = -1;
-        int n = maps.length;
-        int m = maps[0].length;
-        Queue<int[]> que = new ArrayDeque<>();
-        boolean[][] vst = new boolean[n][m];
-        
-        int[] dx = {0, 0, -1, 1};
-        int[] dy = {-1, 1, 0, 0};
-        que.offer(new int[]{0, 0, 1});
-        vst[0][0] = true;
-        
+    Queue<int[]> que = new LinkedList<>();
+    boolean[][] vst;
+    int[] dx = {1, -1, 0, 0};
+    int[] dy = {0, 0, 1, -1};
+    
+    public int bfs(int[][] maps) {
         while(!que.isEmpty()) {
-            int[] sp = que.poll();
-            if(sp[0] == n - 1 && sp[1] == m - 1)
-                answer = sp[2];
+            int[] q = que.poll();
+            if(q[0] == maps.length - 1 && q[1] == maps[0].length - 1) return q[2];
             
             for(int i = 0; i < 4; i++) {
-                int nx = sp[0] + dx[i];
-                int ny = sp[1] + dy[i];
-                if(nx >= 0 && nx < n && ny >= 0 && ny < m && vst[nx][ny] == false && maps[nx][ny] == 1){
-                    que.offer(new int[]{nx, ny, sp[2] + 1});
+                int nx = q[0] + dx[i];
+                int ny = q[1] + dy[i];
+                
+                if(nx >= 0 && nx < maps.length && ny >= 0 && ny < maps[0].length && maps[nx][ny] == 1 && vst[nx][ny] == false) {
+                    que.offer(new int[]{nx, ny, q[2] + 1});
                     vst[nx][ny] = true;
                 }
             }
         }
-        return answer;
+        
+        return -1;
+    }
+    public int solution(int[][] maps) {
+        int answer = 0;
+        vst = new boolean[maps.length][maps[0].length];
+        que.offer(new int[]{0, 0, 1});
+        vst[0][0] = true;
+        
+        int as = bfs(maps);
+        return as;
     }
 }
